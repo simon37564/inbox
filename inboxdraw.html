@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>(Well, there is an inbox here.)</title>
+    <style>
+      body {
+        margin: 1em;
+        font-size: 16px;
+        background-color: #074;
+        color: white;
+      }
+
+      form {
+        border: 1px solid black;
+        padding: 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        max-width: fit-content;
+        margin: 1em auto;
+      }
+    </style>
+
+    <!-- Necessary for Tecknar to function. -->
+    <link rel="stylesheet" href="https://aadenboy.github.io/tecknar/src/colorpicker.min.css" />
+    <script src="https://aadenboy.github.io/tecknar/src/colorpicker.iife.min.js"></script>
+    <script src="https://aadenboy.github.io/tecknar/src/pako.min.js"></script>
+    <script src="https://aadenboy.github.io/tecknar/src/tecknar.js"></script>
+    <link rel="stylesheet" href="tecknar.css" />
+  </head>
+  <body>
+    <main>
+      <h1>SimonAtOR's inbox</h1>
+      <p style="color: #074">
+        (Will you remember me?)
+      </p>
+
+      <form id="form" method="POST" target="_blank" action="https://docs.google.com/forms/d/e/1FAIpQLSdt0JDaQvFFq_6pipthf4ZAuzJOC8GMJFUDHOcljquzBasJzg/formResponse?usp=pp_url">
+        <label>Author: <input id="identity" type="text" name="entry.777718288" placeholder="(Name, please?)" /></label>
+        <textarea id="message" name="entry.800729706" placeholder="(What is it you want to say?)"></textarea>
+        
+        <!-- Tecknar -->
+        <input type="text" id="canvas-data" name="entry.239006594" style="display: none;" />
+        <div id="canvas-area">
+          <div id="canvas-container"></div>
+        </div>
+        <!-- -->
+
+        <!-- Add more elements as needed. -->
+        <button type="submit" id="submit">submit</button>
+      </form>
+      <i>inbox forked from <a href="https://github.com/aadenboy/inbox-template">https://github.com/aadenboy/inbox-template</a>. thanks aadenboy for making it :3</i> <!-- for some reason, using someone else's code makes me feel stupid?' -->
+      <noscript>
+        <p>This inbox requires that you <a href="https://www.enable-javascript.com/">enable javascript</a> to function properly.</p>
+      </noscript>
+    </main>
+    <script>
+      const tecknar = new Tecknar();
+      tecknar.mount("#canvas-container");
+      var strange = 0;
+
+      // Prevents inputs in Tecknar from submitting the message.
+      const tecknarInputs = document.querySelectorAll(".tecknar-container input, .tecknar-container button");
+      tecknarInputs.forEach((input) => {
+        if (input.tagName == "BUTTON") input.setAttribute("type", "button");
+        else input.addEventListener("keydown", (e) => {
+          if (e.key == "Enter") e.preventDefault();
+        });
+      });
+
+      const form = document.getElementById("form");
+      const submit = document.getElementById("submit");
+      const canvas = document.getElementById("canvas-data");
+
+      const emptyData = tecknar.export().data;
+
+      const inputs = Array.from(document.querySelectorAll('#form [name^="entry."]'));
+      form.addEventListener("submit", (e) => {
+        const data = tecknar.export().data;
+        canvas.value = data == emptyData ? "" : data; // Prevent an empty canvas from being sent.
+        
+        const anyFilled = inputs.some(input => input.value !== "");
+        if (!anyFilled) {
+            if(strange < 10){
+              alert("You need to fill in at least one field.");
+              e.preventDefault();
+              strange++;
+              return;
+            } else {
+              alert("(Your mind is spinning, spinning...)"); //blehhhh i'm silly and love being ominous for no reason :3
+              e.preventDefault();
+              strange = -Infinity;
+              return;
+            }
+        }
+      });
+    </script>
+  </body>
+</html>
