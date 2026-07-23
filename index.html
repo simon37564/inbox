@@ -27,13 +27,15 @@
     <script src="https://aadenboy.github.io/tecknar/src/pako.min.js"></script>
     <script src="https://aadenboy.github.io/tecknar/src/tecknar.js"></script>
     <link rel="stylesheet" href="tecknar.css" />
+
+    <!-- a set of hidden messages, one of which is randomly displayed using the background color -->
+    <script src="messages.js"></script>
+    
   </head>
   <body>
     <main>
       <h1>SimonAtOR's inbox</h1>
-      <p style="color: #074">
-        (Will you remember me?)
-      </p>
+      <p class="hiddenmessage" style="color: #074"></p>
 
       <form id="form" method="POST" target="_blank" action="https://docs.google.com/forms/d/e/1FAIpQLSdt0JDaQvFFq_6pipthf4ZAuzJOC8GMJFUDHOcljquzBasJzg/formResponse?usp=pp_url">
         <label>Author: <input id="identity" type="text" name="entry.777718288" placeholder="(Name, please?)" /></label>
